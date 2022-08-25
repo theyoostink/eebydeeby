@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>EEBY</title>
+	<style type="text/css">
+		body {
+			background-color: black;
+		}
+		h1 {
+			color: white;
+			font-family: sans-serif;
+			text-align: center;
+		}
+		#defaultCanvas0 {
+			margin: 0 auto;
+			display: block;
+			border: 1px black solid;
+		}
+	</style>
+</head>
+<body>
+<h1>EEBY DEEBY</h1>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+<script type="text/javascript">
+
+var face;
+var right_eye;
+var left_eye;
+
+var right_eye_obj;
+var left_eye_obj;
+
+var eye_distance;
+
+var lucina;
+var lucina_obj;
+
+var factor;
+
+function preload() {
+  face = loadImage("https://i.imgur.com/s6TlYxd.png");
+  right_eye = loadImage("https://i.imgur.com/A9hOs6r.png");
+  left_eye = loadImage("https://i.imgur.com/A9hOs6r.png");
+  lucina = loadImage("https://i.imgur.com/wpQd5d5.png");
+
+  factor = 2; //factor of 2 will quadruple the area; factor of 3 will 9x the area
+
+  face_obj = { "x": 0*factor, "y": 0*factor, "width": 359*factor, "height": 336*factor }
+  right_eye_obj = { "x": 105*factor, "y": 129*factor, "width": 60*factor, "height": 60*factor };
+  left_eye_obj = { "x": 188*factor, "y": 129*factor, "width": 60*factor, "height": 60*factor };
+  lucina_obj = { "width": 64*factor, "height": 64*factor, "width": 64*factor, "height":64*factor };
+
+  eye_distance = 10*factor;
+}
+
+function setup() {
+	createCanvas(359*factor, 336*factor);
+	background(255);
+}
+
+function draw() {
+	background(255);
+
+	rightXY = getCoords(mouseX, mouseY, right_eye_obj["x"]+right_eye_obj["width"]/2, right_eye_obj["y"]+right_eye_obj["height"]/2);
+	image(right_eye, rightXY["x"]-right_eye_obj["width"]/2, rightXY["y"]-right_eye_obj["height"]/2, right_eye_obj["width"], right_eye_obj["height"]);
+
+	leftXY = getCoords(mouseX, mouseY, left_eye_obj["x"]+left_eye_obj["width"]/2, left_eye_obj["y"]+left_eye_obj["height"]/2);
+	image(left_eye, leftXY["x"]-left_eye_obj["width"]/2, leftXY["y"]-left_eye_obj["height"]/2, left_eye_obj["width"], left_eye_obj["height"]);
+
+	image(face, 0, 0, face_obj["width"], face_obj["height"]);
+
+	image(lucina, mouseX - lucina_obj["width"]/2, mouseY - lucina_obj["height"]/2, lucina_obj["width"], lucina_obj["height"]);
+}
+
+function getCoords(mX, mY, eX, eY) {
+	var a = atan2(mY - eY, mX - eX);
+	var newX = eye_distance * cos(a) + eX;
+	var newY = eye_distance * sin(a) + eY;
+	return { "x": newX, "y": newY };
+}
+
+</script>
+</body>
+</html>
